@@ -2,6 +2,14 @@ using CryptoRealtimePrice;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Logging.AddEventSourceLogger();
+builder.Logging.AddFilter("Microsoft", LogLevel.Warning)
+	.AddFilter("System", LogLevel.Warning)
+	.AddFilter("CryptoRealtimePrice", LogLevel.Debug);
+
 builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers();
@@ -16,8 +24,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
