@@ -1,0 +1,46 @@
+## Build Folders ##
+###################
+bin/
+obj/
+
+## User-specific files ##
+#########################
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# User-specific files (e.g., from Visual Studio or JetBrains Rider)
+.idea/
+.vscode/
+.vs/
+
+# User-specific build output
+[Dd]ebug/
+[Dd]ebugPublic/
+[Dd]ist/
+[Dd]eploy/
+[Dd]eployPublic/
+[Dd]ist/
+
+## ASP.NET ##
+#############
+# Windows Azure Web Apps
+*.publishsettings
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## .NET Core ##
+###############
+# Windows installer package
+*.appx
+*.appxbundle
+*.appxupload
+
+# .NET Core & ASP.NET Core
+.vs2017/
+.vs2019/
+.vscode/
