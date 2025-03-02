@@ -2,12 +2,12 @@ namespace CryptoRealtimePrice.Models
 {
   public class CryptoPair
   {
-    public string Symbol { get; set; }
+    public string Ticker { get; set; }
     public string Name { get; set; }
 
-    public CryptoPair(string symbol, string name)
+    public CryptoPair(string ticker, string name)
     {
-      Symbol = symbol;
+      Ticker = ticker;
       Name = name;
     }
   }

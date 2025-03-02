@@ -7,6 +7,7 @@ namespace CryptoRealtimePrice
     public static void AddApplicationServices(this IServiceCollection services)
     {
       services.AddScoped<CryptoPairService>();
+      services.AddScoped<TiingoClient>();
     }
   }
 }
