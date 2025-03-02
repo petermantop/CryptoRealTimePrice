@@ -21,6 +21,11 @@ public class TiingoClient
     using var request = new HttpRequestMessage(HttpMethod.Get, url);
     var response = await _httpClient.SendAsync(request);
 
+    if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+    {
+      throw new UnauthorizedAccessException("Access denied. API key might be invalid.");
+    }
+
     if (!response.IsSuccessStatusCode)
     {
       throw new HttpRequestException($"Request failed with status code {response.StatusCode}");

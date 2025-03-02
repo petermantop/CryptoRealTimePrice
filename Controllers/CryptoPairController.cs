@@ -47,6 +47,11 @@ namespace CryptoRealtimePrice.Controllers
 
         return Ok(new { Ticker = ticker, LastPrice = priceData });
       }
+      catch (UnauthorizedAccessException ex)
+      {
+        _logger.LogError($"403 Forbidden: {ex.Message}");
+        return StatusCode(403, "Forbidden: Access denied. API key might be invalid or rate limit exceeded.");
+      }
       catch (HttpRequestException ex)
       {
         _logger.LogError($"Error fetching price data for {ticker}: {ex.Message}");
