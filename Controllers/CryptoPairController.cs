@@ -47,9 +47,15 @@ namespace CryptoRealtimePrice.Controllers
 
         return Ok(new { Ticker = ticker, LastPrice = priceData });
       }
-      catch (KeyNotFoundException ex)
+      catch (HttpRequestException ex)
       {
-        return BadRequest(ex.Message);
+        _logger.LogError($"Error fetching price data for {ticker}: {ex.Message}");
+        return StatusCode(500, "Error fetching price data. Please try again later.");
+      }
+      catch (Exception ex)
+      {
+        _logger.LogError($"Unexpected error: {ex.Message}");
+        return StatusCode(500, "An unexpected error occurred.");
       }
     }
   }
