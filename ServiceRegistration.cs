@@ -8,7 +8,7 @@ namespace CryptoRealtimePrice
     {
       // Register Crypto Pair and API Client Services
       services.AddSingleton<CryptoPairService>();
-      services.AddScoped<TiingoClient>();
+      services.AddScoped<TiingoRestClientService>();
 
       // Register WebSocket Service
       services.AddSingleton<TiingoWebSocketService>();

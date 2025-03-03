@@ -7,13 +7,13 @@ namespace CryptoRealtimePrice.Controllers
   [ApiController]
   public class CryptoPairsController : ControllerBase
   {
-    private readonly TiingoClient _tiingoClient;
+    private readonly TiingoRestClientService _TiingoRestClientService;
     private readonly CryptoPairService _cryptoService;
     private readonly ILogger<CryptoPairsController> _logger;
-    public CryptoPairsController(CryptoPairService cryptoService, TiingoClient tiingoClient, ILogger<CryptoPairsController> logger)
+    public CryptoPairsController(CryptoPairService cryptoService, TiingoRestClientService TiingoRestClientService, ILogger<CryptoPairsController> logger)
     {
       _cryptoService = cryptoService;
-      _tiingoClient = tiingoClient;
+      _TiingoRestClientService = TiingoRestClientService;
       _logger = logger;
     }
 
@@ -38,7 +38,7 @@ namespace CryptoRealtimePrice.Controllers
           return BadRequest($"Invalid ticker: {ticker}. Please use one of the available tickers: {string.Join(", ", availablePairs)}");
         }
 
-        var priceData = await _tiingoClient.GetCryptoPriceAsync(ticker);
+        var priceData = await _TiingoRestClientService.GetCryptoPriceAsync(ticker);
         if (priceData == null)
         {
           _logger.LogWarning($"Price data for {ticker} not found.");
