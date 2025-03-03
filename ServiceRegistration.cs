@@ -6,11 +6,11 @@ namespace CryptoRealtimePrice
   {
     public static void AddApplicationServices(this IServiceCollection services)
     {
+      services.AddSingleton<AppSettings>();
+
       // Register Crypto Pair and API Client Services
       services.AddSingleton<CryptoPairService>();
-      services.AddScoped<TiingoRestClientService>();
-
-      // Register WebSocket Service
+      services.AddSingleton<TiingoRestClientService>();
       services.AddSingleton<TiingoWebSocketService>();
 
       // Register SignalR Hub

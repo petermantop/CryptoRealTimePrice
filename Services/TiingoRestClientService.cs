@@ -4,15 +4,15 @@ using CryptoRealtimePrice.Models;
 
 public class TiingoRestClientService
 {
-  private static readonly HttpClient _httpClient;
+  private static readonly HttpClient _httpClient = new HttpClient();
+  private readonly string _apiKey;
 
-  private const string ApiKey = "";
-
-  static TiingoRestClientService()
+  public TiingoRestClientService(AppSettings appSettings)
   {
-    _httpClient = new HttpClient();
+    _apiKey = appSettings.TiingoApiKey;
+
     _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    _httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {ApiKey}");
+    _httpClient.DefaultRequestHeaders.Add("Authorization", $"Token {_apiKey}");
   }
 
   public async Task<string?> GetCryptoPriceAsync(string ticker)

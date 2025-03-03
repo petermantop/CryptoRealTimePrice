@@ -13,15 +13,16 @@ namespace CryptoRealtimePrice.Services
     private readonly CryptoPairService _cryptoService;
     private readonly ILogger<TiingoWebSocketService> _logger;
     private const string WebSocketUrl = "wss://api.tiingo.com/crypto";
-    private const string ApiKey = "";
+    private readonly string _apiKey;
     private ClientWebSocket _webSocket;
     private readonly CancellationTokenSource _cts = new();
 
-    public TiingoWebSocketService(IHubContext<CryptoPriceHub> hubContext, CryptoPairService cryptoService, ILogger<TiingoWebSocketService> logger)
+    public TiingoWebSocketService(IHubContext<CryptoPriceHub> hubContext, AppSettings appSettings, CryptoPairService cryptoService, ILogger<TiingoWebSocketService> logger)
     {
       _hubContext = hubContext;
       _cryptoService = cryptoService;
       _logger = logger;
+      _apiKey = appSettings.TiingoApiKey;
       _webSocket = new ClientWebSocket();
     }
 
@@ -35,7 +36,7 @@ namespace CryptoRealtimePrice.Services
         var subscriptionMessage = JsonConvert.SerializeObject(new
         {
           eventName = "subscribe",
-          authorization = ApiKey,
+          authorization = _apiKey,
           eventData = new
           {
             thresholdLevel = "2"
