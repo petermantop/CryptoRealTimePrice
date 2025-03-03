@@ -2,13 +2,13 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using CryptoRealtimePrice.Models;
 
-public class TiingoClient
+public class TiingoRestClientService
 {
   private static readonly HttpClient _httpClient;
 
-  private const string ApiKey = "1eba069e962bb13cbbb86a76b5702f347c50aed3";
+  private const string ApiKey = "";
 
-  static TiingoClient()
+  static TiingoRestClientService()
   {
     _httpClient = new HttpClient();
     _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

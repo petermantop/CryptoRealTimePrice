@@ -12,14 +12,14 @@ public class TiingoPriceData
 public class PriceData
 {
   public DateTime Date { get; set; }
-  public float Open { get; set; }
-  public float High { get; set; }
-  public float Low { get; set; }
-  public float Close { get; set; }
+  public decimal Open { get; set; }
+  public decimal High { get; set; }
+  public decimal Low { get; set; }
+  public decimal Close { get; set; }
 
   [JsonProperty("tradesDone")]
   public decimal TradesDone { get; set; }
 
-  public float Volume { get; set; }
-  public float VolumeNotional { get; set; }
+  public decimal Volume { get; set; }
+  public decimal VolumeNotional { get; set; }
 }

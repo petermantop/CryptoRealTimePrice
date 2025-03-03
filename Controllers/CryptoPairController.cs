@@ -45,7 +45,7 @@ namespace CryptoRealtimePrice.Controllers
           return NotFound($"Price data for {ticker} not found.");
         }
 
-        return Ok(new { Ticker = ticker, LastPrice = priceData });
+        return Ok(new { Ticker = ticker, MarketPrice = priceData });
       }
       catch (UnauthorizedAccessException ex)
       {
