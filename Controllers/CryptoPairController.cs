@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CryptoRealtimePrice.Services;
+using CryptoRealtimePrice.Models;
 
 namespace CryptoRealtimePrice.Controllers
 {
@@ -17,8 +18,12 @@ namespace CryptoRealtimePrice.Controllers
       _logger = logger;
     }
 
-    // GET: api/Crypto
+    /// <summary>
+    /// Retrieves a list of available cryptocurrency pairs.
+    /// </summary>
+    /// <returns>Returns a list of supported cryptocurrency pairs.</returns>
     [HttpGet]
+    [ProducesResponseType(typeof(List<CryptoPair>), StatusCodes.Status200OK)]
     public IActionResult GetCryptoPairs()
     {
       _logger.LogInformation("Handling GET request for Crypto Pairs.");
@@ -26,7 +31,22 @@ namespace CryptoRealtimePrice.Controllers
       return Ok(cryptoPairs);
     }
 
+    /// <summary>
+    /// Retrieves the latest market price of a specified cryptocurrency pair.
+    /// </summary>
+    /// <param name="ticker">The cryptocurrency ticker (e.g., BTCUSD).</param>
+    /// <returns>Returns the latest market price of the specified cryptocurrency.</returns>
+    /// <response code="200">Returns the market price successfully.</response>
+    /// <response code="400">Invalid ticker name.</response>
+    /// <response code="403">API key invalid or rate limit exceeded.</response>
+    /// <response code="404">Price data not found.</response>
+    /// <response code="500">Unexpected server error.</response>
     [HttpGet("price/{ticker}")]
+    [ProducesResponseType(typeof(CryptoPairPrice), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetCryptoPrice(string ticker)
     {
       try
@@ -45,7 +65,8 @@ namespace CryptoRealtimePrice.Controllers
           return NotFound($"Price data for {ticker} not found.");
         }
 
-        return Ok(new { Ticker = ticker, MarketPrice = priceData });
+        var response = new CryptoPairPrice(ticker, priceData);
+        return Ok(response);
       }
       catch (UnauthorizedAccessException ex)
       {
