@@ -1,7 +1,10 @@
 using CryptoRealtimePrice;
+using CryptoRealtimePrice.Services;
+using CryptoRealtimePrice.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
@@ -10,18 +13,12 @@ builder.Logging.AddFilter("Microsoft", LogLevel.Warning)
 	.AddFilter("System", LogLevel.Warning)
 	.AddFilter("CryptoRealtimePrice", LogLevel.Debug);
 
+// Register all application services via `ServiceRegistration`
 builder.Services.AddApplicationServices();
-
-builder.Services.AddControllers();
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure Swagger (API Documentation)
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
@@ -31,5 +28,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapControllers();
+app.MapHub<CryptoPriceHub>("/cryptoPriceHub");
+
+// Start WebSocket service
+var webSocketService = app.Services.GetRequiredService<TiingoWebSocketService>();
+_ = webSocketService.StartWebSocketAsync();
 
 app.Run();
